@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLineEdit,
 from ibm_watson import SpeechToTextV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from datetime import timedelta
-from moviepy.video.io.VideoFileClip import VideoFileClip
+from moviepy.editor import VideoFileClip
 from googletrans import Translator
 from pytube import YouTube 
 import requests
@@ -320,3 +320,7 @@ if __name__ == '__main__':
     root.resize(800, 600)
     root.show()
     exit(app.exec_())
+
+
+
+    
