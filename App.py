@@ -106,8 +106,15 @@ class App(QWidget):
         else:
             self.statusBar.showMessage("Video İndiriliyor.")
             self.download = threadDownload(self.youtubeUrl.text())
-            self.download.sonuc.connect(self.Finish)
+            self.download.result.connect(self.youtubeFinsh)
             self.download.start()
+
+
+    def youtubeFinsh(self):
+        for i in range(401):
+            time.sleep(0.01)
+            self.progressBar.setValue(i)
+        self.statusBar.showMessage("İşlem Tamamlandı.")
 
 
     def openFile(self):
@@ -170,21 +177,19 @@ class App(QWidget):
                 global text
                 text = file.read()
             self.createTranslateTR = threadTranslateTR(text)
-            self.createTranslateTR.result.connect(self.ProgressBar)
+            self.createTranslateTR.result.connect(self.WriteText)
             self.createTranslateTR.start()
-            self.WriteText()
+        
         except:
             QMessageBox.about(self, "Hata", "Veri.Txt Dosyası Bulunamadı.")
             QCoreApplication.quit()
 
 
-
     def translateProgress(self):
-        for i in range(400):
+        for i in range(401):
             time.sleep(0.01)
-            self.n  = self.n + 1
-            self.progressBar.setValue(self.n)
-
+            self.progressBar.setValue(i)
+        self.statusBar.showMessage("İşlem Tamamlandı.")
 
     def play(self):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -349,7 +354,6 @@ class threadTranslateTR(QThread):
         super().__init__()
         self.text = text
 
-
     def run(self):
         try:
             translateConvert = Translate(self.text)
@@ -373,7 +377,6 @@ class Translate():
             file.write(example.text)
 
 
-
 if __name__ == '__main__':
     from sys import argv,exit
     app = QApplication(argv)
@@ -382,7 +385,3 @@ if __name__ == '__main__':
     root.resize(800, 600)
     root.show()
     exit(app.exec_())
-
-
-
-    
